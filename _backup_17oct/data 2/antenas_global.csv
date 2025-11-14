@@ -1,0 +1,11 @@
+﻿Ciudad;Zona;Antena;Latitud;Longitud;Capacidad_MB
+Madrid;Este;A1_Moratalaz;40.407;-3.654;4500
+Madrid;Sur;A2_Vallecas;40.385;-3.662;5000
+Madrid;Oeste;A3_Moncloa;40.435;-3.728;4700
+Madrid;Norte;A4_Chamartin;40.470;-3.688;5200
+París;Centro;A1_Louvre;48.860;2.337;6000
+París;Sur;A2_Montparnasse;48.840;2.322;5800
+París;Este;A3_Belleville;48.872;2.398;5500
+NuevaYork;Centro;A1_Manhattan;40.758;-73.985;7000
+NuevaYork;Sur;A2_Brooklyn;40.678;-73.944;6800
+NuevaYork;Este;A3_Queens;40.728;-73.794;6600

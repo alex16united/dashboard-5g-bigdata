@@ -1,0 +1,12 @@
+Ciudad;Zona;Antena;Latitud;Longitud;Capacidad_MB;Tecnologia
+Madrid;Centro;A1_GranVia;40.420;-3.705;5200;5G
+Madrid;Norte;A2_Chamartin;40.475;-3.685;5100;5G
+Madrid;Sur;A3_Legazpi;40.390;-3.700;4700;4G
+Madrid;Este;A4_Moratalaz;40.405;-3.650;4600;4G
+Madrid;Oeste;A5_Moncloa;40.435;-3.720;5000;5G
+Madrid;SurEste;A6_Vallecas;40.375;-3.650;4300;4G
+Madrid;Noroeste;A7_Tetuan;40.460;-3.700;5200;5G
+Madrid;CentroSur;A8_Latina;40.400;-3.745;4400;4G
+Madrid;Aeropuerto;A9_Barajas;40.472;-3.562;5100;5G
+Madrid;Puente;A10_Vicalvaro;40.405;-3.603;4500;4G
+

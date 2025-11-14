@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sostenibilidad 5G + Big Data</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1041/1041916.png" type="image/png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    section {
+      border-radius: 16px;
+      background: white;
+      margin: 40px auto;
+      padding: 40px;
+      max-width: 1000px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #1b5e20;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th { background: #2e7d32; color: white; }
+
+    tr:nth-child(even) { background: #f7f7f7; }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      font-size: 14px;
+      margin-top: 60px;
+    }
+
+    /* 💚 Ondas expansivas */
+    .pulse-circle {
+      background: rgba(76, 175, 80, 0.3);
+      border-radius: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      animation: pulse 2.5s infinite ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      0% { width: 0px; height: 0px; opacity: 0.8; }
+      70% { width: 200px; height: 200px; opacity: 0; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🌱 Sostenibilidad 5G + Big Data</h1>
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="/mapa">Antenas</a>
+      <a href="/vr">VR</a>
+      <a href="/comparativa">Comparativa</a>
+      <a href="/prediccion">Predicción</a>
+      <a href="/sostenibilidad">Sostenibilidad</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>📊 Aspectos ASG y ODS</h2>
+      <p>Analizamos los factores Ambientales, Sociales y de Gobernanza (ASG) y su relación con los Objetivos de Desarrollo Sostenible (ODS).</p>
+      <ul style="text-align:left;">
+        <li>🌱 Ambiental: eficiencia energética, reciclaje de materiales.</li>
+        <li>🤝 Social: igualdad, formación digital e inclusión.</li>
+        <li>🏛️ Gobernanza: transparencia y ética de datos.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🎯 Objetivos de Desarrollo Sostenible (ODS)</h2>
+      <table>
+        <tr><th>ODS</th><th>Descripción</th><th>Aplicación</th></tr>
+        <tr><td>7</td><td>Energía asequible</td><td>Uso de redes con menor consumo.</td></tr>
+        <tr><td>9</td><td>Industria e innovación</td><td>Redes 5G eficientes y sostenibles.</td></tr>
+        <tr><td>12</td><td>Consumo responsable</td><td>Reutilización y reciclaje.</td></tr>
+        <tr><td>13</td><td>Acción por el clima</td><td>Reducción de CO₂ en infraestructuras.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>🌿 Mapa de Zonas Sostenibles de Madrid</h2>
+      <p>Visualiza las áreas sostenibles y tu ubicación actual en tiempo real.</p>
+      <div id="map" style="height:600px; width:100%; border-radius:12px; margin-top:20px; position: relative;"></div>
+    </section>
+
+    <script>
+      var map = L.map('map').setView([40.4168, -3.7038], 11);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+
+      // 🟢 Zonas sostenibles
+      const zonas = [
+        { nombre: "Casa de Campo", lat: 40.4183, lon: -3.7558, tipo: "Parque urbano", descripcion: "Gran pulmón verde con biodiversidad y energías limpias." },
+        { nombre: "Madrid Río", lat: 40.4018, lon: -3.7174, tipo: "Recuperación fluvial", descripcion: "Zona verde junto al Manzanares, modelo de regeneración sostenible." },
+        { nombre: "Parque del Retiro", lat: 40.4153, lon: -3.6845, tipo: "Parque histórico", descripcion: "Espacio protegido con gestión ecológica y biodiversidad urbana." },
+        { nombre: "Valdebebas Forestal", lat: 40.4891, lon: -3.6099, tipo: "Bosque metropolitano", descripcion: "Área de reforestación y corredor ecológico." },
+        { nombre: "Distrito Castellana Verde", lat: 40.4501, lon: -3.6883, tipo: "Innovación sostenible", descripcion: "Zona de oficinas con eficiencia energética y techos solares." },
+        { nombre: "Centro Solar La Nave", lat: 40.3759, lon: -3.6980, tipo: "Energía renovable", descripcion: "Proyectos de autoconsumo energético y eventos de sostenibilidad." }
+      ];
+
+      // Ondas expansivas
+      zonas.forEach(z => {
+        const marker = L.circleMarker([z.lat, z.lon], {
+          radius: 8,
+          color: "#1b5e20",
+          fillColor: "#43a047",
+          fillOpacity: 1
+        }).addTo(map);
+        marker.bindPopup(`<b>${z.nombre}</b><br>🌿 ${z.tipo}<br>${z.descripcion}`);
+
+        const div = document.createElement("div");
+        div.className = "pulse-circle";
+        const latlngPoint = map.latLngToLayerPoint([z.lat, z.lon]);
+        div.style.left = latlngPoint.x + "px";
+        div.style.top = latlngPoint.y + "px";
+        map.getPanes().overlayPane.appendChild(div);
+
+        map.on("move", () => {
+          const newPoint = map.latLngToLayerPoint([z.lat, z.lon]);
+          div.style.left = newPoint.x + "px";
+          div.style.top = newPoint.y + "px";
+        });
+      });
+
+      // 📍 Geolocalización en tiempo real
+      let userMarker;
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(
+          pos => {
+            console.log("✅ Geolocalización OK:", pos.coords);
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+
+            if (userMarker) {
+              userMarker.setLatLng([lat, lon]);
+            } else {
+              userMarker = L.circleMarker([lat, lon], {
+                radius: 10,
+                color: "#1565c0",
+                fillColor: "#2196f3",
+                fillOpacity: 0.9
+              }).addTo(map);
+              userMarker.bindPopup("📍 Tu ubicación actual").openPopup();
+            }
+
+            map.flyTo([lat, lon], 14, { animate: true, duration: 1.5 });
+          },
+          err => {
+            console.error("❌ Error de geolocalización:", err);
+            alert("⚠️ No se pudo obtener tu ubicación. Activa los permisos de GPS.");
+          },
+          { enableHighAccuracy: true }
+        );
+      } else {
+        alert("❌ Tu navegador no soporta geolocalización.");
+      }
+    </script>
+
+    <section>
+      <h2>📉 Comparativa Energética</h2>
+      <p>Comparación de consumo energético entre redes 4G y 5G.</p>
+      <canvas id="energyChart" width="400" height="200"></canvas>
+    </section>
+
+    <script>
+      const ctx = document.getElementById('energyChart').getContext('2d');
+      const energyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Antenas 4G', 'Antenas 5G'],
+          datasets: [{
+            label: 'Consumo Energético (kWh)',
+            data: [100, 70],
+            backgroundColor: ['#dc3545', '#28a745']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            title: { display: true, text: 'Eficiencia energética de redes' }
+          }
+        }
+      });
+    </script>
+  </main>
+
+  <footer>
+    © 2025 Alexander Marcatoma – Sostenibilidad 5G + Big Data
+  </footer>
+</body>
+</html>
+

@@ -1,0 +1,87 @@
+# Dashboard 5G + Big Data - Servidor Flask
+# -----------------------------------------
+# Muestra el dashboard principal con:
+# - Mapa dinámico 4G / 5G
+# - Entorno de realidad virtual
+# - Predicciones Big Data
+# Además lee el CSV de antenas y devuelve
+# los datos como JSON.
+# -----------------------------------------
+
+from flask import Flask, render_template, jsonify, redirect, url_for
+import csv
+
+app = Flask(__name__)
+
+# -----------------------------------------
+# Página raíz → redirige al dashboard
+# -----------------------------------------
+@app.route("/")
+def home():
+    return redirect(url_for("dashboard5g"))
+
+# -----------------------------------------
+# Página principal del Dashboard completo
+# -----------------------------------------
+@app.route("/dashboard5g")
+def dashboard5g():
+    return render_template("dashboard_5g.html")
+
+# -----------------------------------------
+# Sección: Mapa dinámico
+# -----------------------------------------
+@app.route("/mapa")
+def mapa():
+    return render_template("mapa_antenas.html")
+
+# -----------------------------------------
+# Sección: Realidad Virtual
+# -----------------------------------------
+@app.route("/vr")
+def vr():
+    return render_template("vr.html")
+
+# -----------------------------------------
+# Sección: Predicciones (placeholder)
+# -----------------------------------------
+@app.route("/predicciones")
+def predicciones():
+    return render_template("predicciones.html")
+
+# -----------------------------------------
+# Endpoint de datos de antenas (JSON)
+# -----------------------------------------
+@app.route("/data")
+def data():
+    filas = []
+    try:
+        with open("data/antenas_madrid.csv", newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f, delimiter=";")
+            for r in reader:
+                try:
+                    lat = round(float(r.get("Latitud")), 6)
+                    lon = round(float(r.get("Longitud")), 6)
+                    filas.append({
+                        "id": r.get("Antena"),
+                        "nombre": r.get("Antena"),
+                        "lat": lat,
+                        "lon": lon,
+                        "tipo": r.get("Tecnologia"),
+                        "frecuencia": "",
+                        "potencia": float(r.get("Capacidad_MB") or 10)
+                    })
+                except Exception as e:
+                    print("❌ Error en fila:", e)
+                    continue
+    except FileNotFoundError:
+        print("⚠️ No se encontró el archivo data/antenas_madrid.csv")
+
+    return jsonify(filas)
+
+# -----------------------------------------
+# Lanzar servidor Flask
+# -----------------------------------------
+if __name__ == "__main__":
+    app.run(debug=True)
+
+

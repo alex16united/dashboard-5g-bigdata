@@ -1,0 +1,112 @@
+k<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mapa dinámico 4G/5G</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; }
+    #map { height: 100vh; width: 100%; }
+    @keyframes wave {
+      0% { transform: scale(0.2); opacity: 0.8; }
+      70% { transform: scale(3); opacity: 0.3; }
+      100% { transform: scale(4); opacity: 0; }
+    }
+    .punto-antena {
+      position: absolute;
+      width: var(--size, 12px);
+      height: var(--size, 12px);
+      margin-left: calc(var(--size, 12px) / -2);
+      margin-top: calc(var(--size, 12px) / -2);
+      border-radius: 50%;
+      background: var(--color, #1E90FF);
+      box-shadow: 0 0 10px var(--color, rgba(30,144,255,0.8));
+    }
+    .punto-antena::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: var(--size, 12px);
+      height: var(--size, 12px);
+      border-radius: 50%;
+      border: 2px solid var(--color, #1E90FF);
+      animation: wave 2s infinite ease-out;
+    }
+    .legend {
+      position: absolute;
+      bottom: 20px; left: 20px;
+      background: rgba(255,255,255,0.9);
+      padding: 10px 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.2);
+      font-family: sans-serif;
+      font-size: 14px;
+      z-index: 1000;
+    }
+    .legend h4 { margin: 0 0 5px 0; font-size: 15px; text-align: center; }
+    .legend-item { display: flex; align-items: center; margin: 4px 0; cursor: pointer; }
+    .legend-color {
+      width: 14px; height: 14px; border-radius: 50%; margin-right: 6px;
+    }
+    .legend-color.rojo { background: #FF2D55; box-shadow: 0 0 5px #FF2D55; }
+    .legend-color.azul { background: #1E90FF; box-shadow: 0 0 5px #1E90FF; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="legend" id="legend">
+    <h4>Tipo de red</h4>
+    <div class="legend-item" id="btn5g"><div class="legend-color rojo"></div><span>5G</span></div>
+    <div class="legend-item" id="btn4g"><div class="legend-color azul"></div><span>4G</span></div>
+    <div class="legend-item" id="btnTodos"><div class="legend-color" style="background:#444;"></div><span>Mostrar todo</span></div>
+  </div>
+  <script>
+    const map = L.map('map').setView([40.4168, -3.7038], 11);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18, attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const layerGroup = L.layerGroup().addTo(map);
+    const antenasFijas = {};
+
+    async function cargarAntenas() {
+      const resp = await fetch('/data');
+      const antenas = await resp.json();
+      antenas.forEach(a => {
+        const id = a.id || `${a.lat}_${a.lon}`;
+        if (antenasFijas[id]) return;
+        const tipo = (a.tipo || '').toUpperCase();
+        const color = tipo.includes('5G') ? '#FF2D55' : '#1E90FF';
+        const cap = Number(a.potencia) || 10;
+        const size = Math.min(40, Math.max(10, cap / 150));
+        const icon = L.divIcon({ className: 'punto-antena', iconSize: [size, size] });
+        const marker = L.marker([a.lat, a.lon], { icon })
+          .bindPopup(`<b>${a.nombre}</b><br>${a.tipo}<br>Capacidad: ${a.potencia} MB`)
+          .addTo(layerGroup);
+        marker._icon.style.setProperty('--color', color);
+        marker._icon.style.setProperty('--size', `${size}px`);
+        marker._icon.style.background = color;
+        marker._icon.style.boxShadow = `0 0 10px ${color}`;
+        marker.tipo = tipo;
+        antenasFijas[id] = marker;
+      });
+    }
+
+    cargarAntenas();
+
+    function filtrar(tipo) {
+      for (let id in antenasFijas) {
+        const m = antenasFijas[id];
+        const visible = tipo === 'TODOS' || (tipo === '5G' && m.tipo.includes('5G')) || (tipo === '4G' && m.tipo.includes('4G'));
+        m._icon.style.display = visible ? 'block' : 'none';
+      }
+    }
+
+    document.getElementById('btn5g').addEventListener('click', () => filtrar('5G'));
+    document.getElementById('btn4g').addEventListener('click', () => filtrar('4G'));
+    document.getElementById('btnTodos').addEventListener('click', () => filtrar('TODOS'));
+  </script>
+</body>
+</html>
+

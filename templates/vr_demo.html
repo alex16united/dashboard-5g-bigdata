@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center my-4">
+    <h2>🕶️ Demo de Realidad Virtual</h2>
+    <p>Explora un escenario 3D con esferas que representan antenas 4G y 5G.</p>
+</div>
+
+<!-- Escenario VR con A-Frame -->
+<a-scene embedded>
+    <!-- Suelo -->
+    <a-plane position="0 0 -5" rotation="-90 0 0" width="20" height="20" color="#7BC8A4"></a-plane>
+
+    <!-- Antena 4G (azul) -->
+    <a-sphere position="-2 1 -5" radius="0.5" color="blue"></a-sphere>
+    <a-text value="Antena 4G" position="-2 2 -5" align="center" color="white"></a-text>
+
+    <!-- Antena 5G (roja) -->
+    <a-sphere position="2 1 -5" radius="0.7" color="red"></a-sphere>
+    <a-text value="Antena 5G" position="2 2 -5" align="center" color="white"></a-text>
+
+    <!-- Cámara con controles para moverse -->
+    <a-entity camera look-controls wasd-controls position="0 1.6 0"></a-entity>
+</a-scene>
+
+<!-- Importar librería A-Frame -->
+<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+{% endblock %}
+

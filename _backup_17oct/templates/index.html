@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Sección de bienvenida -->
+<div class="text-center my-5">
+    <h1 class="display-4">🌐 Dashboard 5G + Big Data</h1>
+    <p class="lead">Explora la cobertura 4G y 5G en Madrid con mapas dinámicos, predicciones y una experiencia de Realidad Virtual.</p>
+</div>
+
+<!-- Tarjetas principales -->
+<div class="row">
+    <!-- Mapa de Antenas -->
+    <div class="col-md-4">
+        <div class="card border-primary shadow-sm mb-4">
+            <div class="card-body text-center">
+                <h5 class="card-title text-primary"><i class="fas fa-signal fa-2x"></i></h5>
+                <h5 class="card-title">Mapa de Antenas</h5>
+                <p class="card-text">Visualiza antenas 4G y 5G con tamaño dinámico según capacidad y efecto pulso.</p>
+                <a href="/mapa" class="btn btn-primary">Ver mapa</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Realidad Virtual -->
+    <div class="col-md-4">
+        <div class="card border-success shadow-sm mb-4">
+            <div class="card-body text-center">
+                <h5 class="card-title text-success"><i class="fas fa-vr-cardboard fa-2x"></i></h5>
+                <h5 class="card-title">Experiencia VR</h5>
+                <p class="card-text">Explora las antenas y la cobertura en un entorno 3D inmersivo con A-Frame.</p>
+                <a href="/vr" class="btn btn-success">Entrar en VR</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Predicciones (placeholder) -->
+    <div class="col-md-4">
+        <div class="card border-danger shadow-sm mb-4">
+            <div class="card-body text-center">
+                <h5 class="card-title text-danger"><i class="fas fa-chart-line fa-2x"></i></h5>
+                <h5 class="card-title">Predicciones</h5>
+                <p class="card-text">Simulación de saturación futura de la red con modelos Big Data (en desarrollo).</p>
+                <a href="#" class="btn btn-danger disabled">Próximamente</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sección informativa -->
+<div class="row my-5">
+    <div class="col-md-6">
+        <h3>📡 ¿Por qué es importante?</h3>
+        <p>El despliegue de 5G representa un cambio en la capacidad de la red, reduciendo latencias y soportando más dispositivos conectados simultáneamente.</p>
+    </div>
+    <div class="col-md-6">
+        <h3>💡 ¿Qué ofrece este Dashboard?</h3>
+        <ul>
+            <li>Mapas dinámicos de antenas 4G/5G</li>
+            <li>Sección inmersiva de Realidad Virtual</li>
+            <li>Comparativas entre barrios</li>
+            <li>Predicciones de saturación futura</li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
+
+

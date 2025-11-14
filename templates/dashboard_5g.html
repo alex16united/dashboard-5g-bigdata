@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard 5G + Big Data</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #0b0c10;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    header {
+      background: #1f2833;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    }
+    header h1 {
+      margin: 0;
+      color: #66fcf1;
+      font-size: 1.6rem;
+    }
+    nav a {
+      color: #c5c6c7;
+      margin: 0 0.8rem;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav a:hover {
+      color: #66fcf1;
+    }
+    section {
+      padding: 60px 8%;
+      min-height: 70vh;
+    }
+    h2 {
+      color: #66fcf1;
+      text-align: center;
+      margin: 0 0 1rem;
+    }
+    #inicio {
+      background: linear-gradient(135deg, #0b0c10, #1f2833);
+      text-align: center;
+    }
+    #inicio p {
+      max-width: 900px;
+      margin: 10px auto 0;
+      color: #c5c6c7;
+      font-size: 1.05rem;
+    }
+    .card {
+      background: #1f2833;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(102, 252, 241, 0.12);
+      padding: 1rem;
+      margin: 0 auto;
+    }
+    .frame {
+      width: 100%;
+      height: 60vh;
+      min-height: 420px;
+      border: 0;
+      border-radius: 12px;
+    }
+    footer {
+      background: #1f2833;
+      padding: 1.2rem;
+      text-align: center;
+      color: #c5c6c7;
+      border-top: 1px solid #45a29e;
+    }
+    .highlight {
+      color: #66fcf1;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📡 Dashboard 5G + Big Data</h1>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#mapa">Mapa</a>
+      <a href="#vr">Realidad Virtual</a>
+      <a href="#predicciones">Predicciones</a>
+    </nav>
+  </header>
+
+  <section id="inicio">
+    <h2>Bienvenido</h2>
+    <p>
+      Este panel combina <span class="highlight">Big Data</span> y visualización avanzada para analizar 
+      la cobertura y expansión de las redes <span class="highlight">4G y 5G</span> en Madrid.  
+      Explora el mapa dinámico, adéntrate en el entorno de <span class="highlight">realidad virtual</span> 
+      y descubre las <span class="highlight">predicciones</span> de instalación de nuevas antenas.
+    </p>
+  </section>
+
+  <section id="mapa">
+    <h2>Mapa Dinámico 4G / 5G</h2>
+    <div class="card">
+      <iframe class="frame" src="/mapa" title="Mapa dinámico 4G/5G"></iframe>
+    </div>
+  </section>
+
+  <section id="vr">
+    <h2>Entorno de Realidad Virtual</h2>
+    <div class="card">
+      <iframe class="frame" src="/vr" title="Simulación VR"></iframe>
+    </div>
+  </section>
+
+  <section id="predicciones">
+    <h2>Predicciones y Comparativas</h2>
+    <div class="card">
+      <iframe class="frame" src="/predicciones" title="Predicciones 5G"></iframe>
+    </div>
+  </section>
+
+  <footer>
+    Comparamos barrios con 4G y 5G para entender por qué el 5G impulsa
+    <span class="highlight">velocidad, baja latencia y capacidad</span>.<br>
+    Proyecto de <b>Alexander Marcatoma — STI 2025</b>
+  </footer>
+</body>
+</html>
+
